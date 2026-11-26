@@ -1,0 +1,52 @@
+# GASから依頼を受けて、リール動画を作る
+name: render
+
+on:
+  repository_dispatch:
+    types: [render]
+
+# 同時に依頼が来ても1本ずつ順番に作る
+concurrency:
+  group: render
+  cancel-in-progress: false
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: 依頼内容を受け取る（トークンはログに出さない）
+        env:
+          PAYLOAD: ${{ toJson(github.event.client_payload) }}
+        run: |
+          TOKEN=$(echo "$PAYLOAD" | jq -r '.driveToken')
+          SECRET=$(echo "$PAYLOAD" | jq -r '.secret')
+          echo "::add-mask::$TOKEN"
+          echo "::add-mask::$SECRET"
+          echo "DRIVE_TOKEN=$TOKEN" >> "$GITHUB_ENV"
+          echo "CALLBACK_SECRET=$SECRET" >> "$GITHUB_ENV"
+          {
+            echo 'JOB_JSON<<__END__'
+            echo "$PAYLOAD" | jq -c 'del(.driveToken, .secret)'
+            echo '__END__'
+          } >> "$GITHUB_ENV"
+          echo "投稿ID: $(echo "$PAYLOAD" | jq -r '.postId')"
+
+      - uses: actions/checkout@v4
+
+      - name: フォントのキャッシュ
+        uses: actions/cache@v4
+        with:
+          path: renderer/fonts
+          key: fonts-${{ hashFiles('renderer/get_fonts.sh', 'renderer/fonts.json') }}
+
+      - name: ffmpeg・Pillow・フォントの準備
+        run: |
+          command -v ffmpeg >/dev/null || (sudo apt-get update -y && sudo apt-get install -y ffmpeg)
+          pip install --quiet pillow
+          [ -f renderer/fonts/ShipporiMincho-Bold.ttf ] || bash renderer/get_fonts.sh
+
+      - name: 動画を作ってDriveに保存
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: python3 scripts/drive_job.py

@@ -1,0 +1,35 @@
+{
+  "_説明": "選べるフォント。すべてGoogle Fonts（SIL Open Font License：商用利用・再配布可）",
+  "Noto Serif JP（明朝・標準）": {
+    "text":  { "file": "NotoSerifJP[wght].ttf", "wght": 600 },
+    "telop": { "file": "NotoSerifJP[wght].ttf", "wght": 600 }
+  },
+  "しっぽり明朝（明朝・上品）": {
+    "text":  { "file": "ShipporiMincho-SemiBold.ttf" },
+    "telop": { "file": "ShipporiMincho-Bold.ttf" }
+  },
+  "Zen Old Mincho（明朝・クラシック）": {
+    "text":  { "file": "ZenOldMincho-SemiBold.ttf" },
+    "telop": { "file": "ZenOldMincho-Bold.ttf" }
+  },
+  "Noto Sans JP（ゴシック・標準）": {
+    "text":  { "file": "NotoSansJP[wght].ttf", "wght": 600 },
+    "telop": { "file": "NotoSansJP[wght].ttf", "wght": 700 }
+  },
+  "Zen Kaku Gothic New（ゴシック・すっきり）": {
+    "text":  { "file": "ZenKakuGothicNew-Medium.ttf" },
+    "telop": { "file": "ZenKakuGothicNew-Bold.ttf" }
+  },
+  "Zen Maru Gothic（丸ゴシック・やさしい）": {
+    "text":  { "file": "ZenMaruGothic-Medium.ttf" },
+    "telop": { "file": "ZenMaruGothic-Bold.ttf" }
+  },
+  "M PLUS Rounded 1c（丸ゴシック・ポップ）": {
+    "text":  { "file": "MPLUSRounded1c-Bold.ttf" },
+    "telop": { "file": "MPLUSRounded1c-ExtraBold.ttf" }
+  },
+  "Klee One（手書き風）": {
+    "text":  { "file": "KleeOne-SemiBold.ttf" },
+    "telop": { "file": "KleeOne-SemiBold.ttf" }
+  }
+}
